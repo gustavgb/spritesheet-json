@@ -69,8 +69,8 @@ function generate () {
   const width = img.width / cellWidth
   const height = img.height / cellHeight
 
-  for (let x = 0; x < width; x++) {
-    for (let y = 0; y < height; y++) {
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
       const n = x + y * width
       const fileName = createFileName(n)
 
