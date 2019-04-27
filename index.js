@@ -30,7 +30,7 @@ function createFileName (n) {
   }
 }
 
-function generate () {
+function generate (includeNormals) {
   if (!img) {
     alert('Please provide an image!')
     return
@@ -52,17 +52,20 @@ function generate () {
   window.location.hash = cellWidth + 'x' + cellHeight
 
   const result = {
-    frames: {},
-  	meta: {
-  		app: 'http://gustavgb.github.io/spritesheet-json',
-  		version: '1.0',
-  		image: name,
+    textures: [{
+      image: name,
+      normalMap: includeNormals ? name.replace(/.\w*$/, (match) => '_n' + match) : undefined,
   		format: 'RGBA8888',
   		size: {
   			w: img.width,
   			h: img.height
   		},
-  		scale: 1
+  		scale: 1,
+      frames: []
+    }],
+  	meta: {
+  		app: 'http://gustavgb.github.io/spritesheet-json',
+  		version: '1.0'
   	}
   }
 
@@ -74,7 +77,8 @@ function generate () {
       const n = x + y * width
       const fileName = createFileName(n)
 
-      result.frames[fileName] = {
+      result.textures[0].frames.push({
+        filename: fileName,
         frame: {
           x: x * cellWidth,
           y: y * cellHeight,
@@ -93,7 +97,7 @@ function generate () {
   				w: 128,
   				h: 128
   			}
-      }
+      })
     }
   }
 
